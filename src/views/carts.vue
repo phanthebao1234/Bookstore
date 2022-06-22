@@ -51,17 +51,32 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import { usegetToCart } from "@/composables/getToCart";
 import { useAddToCart } from "@/composables/addToCart";
+import { useOrder } from "@/composables/order";
 export default {
   setup() {
     const store = useStore();
     const { data } = usegetToCart();
     const { deleteCart, updateCart } = useAddToCart();
+    const { addToOrder } = useOrder();
     store.dispatch("setCart", { data: data });
     const cart = store.state.carts;
     console.log(cart);
 
-    function thanhtoan() {
-      console.log(store.state.cartOfUser);
+    async function thanhtoan() {
+      console.log(store.state.cartOfUser, store.state.displayname);
+      await addToOrder(store.state.displayname, store.state.cartOfUser)
+        .then(() => {
+          alert("Thanh toán thành công");
+        })
+        .catch((error) => {
+          alert("Thanh toán thất bại", error);
+        });
+
+      store.state.cartOfUser.forEach((ele) => {
+        console.log(ele.id);
+        deleteCart(ele.id);
+        store.commit("deleteAll");
+      });
     }
 
     async function deleteItem(id, index) {

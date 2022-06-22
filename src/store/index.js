@@ -30,12 +30,12 @@ export default createStore({
     },
     setCartforUser(state, userPayload) {
       const cart = [];
-      console.log("setCartforUser");
-      console.log(state.carts.userId);
+      // console.log("setCartforUser");
+      // console.log(state.carts.userId);
       for (let i = 0; i < state.carts.length; i++) {
         console.log(state.carts[i].userId);
         if (state.carts[i].userId == userPayload) {
-          console.log("userPayload");
+          // console.log("userPayload");
           cart.push(state.carts[i]);
           state.cartOfUser = cart;
         }
@@ -68,6 +68,9 @@ export default createStore({
     deleteItemCartUser(state, index) {
       console.log("deleteItemCartUser");
       state.cartOfUser.splice(index, 1);
+    },
+    deleteAll(state) {
+      state.cartOfUser = [];
     },
   },
   actions: {

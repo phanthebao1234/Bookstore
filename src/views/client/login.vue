@@ -1,6 +1,6 @@
 <template>
   <div class="container my-5 register">
-    <form class="form" @submit.prevent="onSubmit">
+    <form class="form" @submit="onSubmit">
       <div class="mb-3">
         <label for="email" class="form-label">Email Address</label>
         <input
@@ -47,7 +47,8 @@ export default {
     const email = ref("");
     const password = ref("");
 
-    async function onSubmit() {
+    async function onSubmit(e) {
+      e.preventDefault();
       await signin(email.value, password.value);
       if (!error.value) router.push({ name: "profile", params: {} });
     }

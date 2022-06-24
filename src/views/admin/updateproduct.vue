@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>Thêm sản phẩm</h2>
-    <form class="row g-3">
+    <form class="row g-3" @submit.prevent="onSubmit">
       <div class="col-md-6">
         <label for="name" class="form-label">Tên sản phẩm</label>
         <input
@@ -93,20 +93,55 @@
 </template>
 
 <script>
+import { useProductsAdmin } from "@/composables/productAdmin";
+import { ref } from "vue";
 export default {
-  data() {
+  setup() {
+    const name = ref("");
+    const author = ref("");
+    const image = ref("");
+    const category = ref("");
+    const nhaxuatban = ref("");
+    const hinhthuc = ref("");
+    const price = ref(0);
+    const quality = ref(0);
+    console.log(name.value);
+
+    const { addData } = useProductsAdmin();
+    async function onSubmit() {
+      await addData(
+        name.value,
+        author.value,
+        image.value,
+        category.value,
+        nhaxuatban.value,
+        hinhthuc.value,
+        price.value,
+        quality.value
+      );
+      console.log(
+        name.value,
+        author.value,
+        image.value,
+        category.value,
+        nhaxuatban.value,
+        hinhthuc.value,
+        price.value,
+        quality.value
+      );
+    }
     return {
-      name: "",
-      author: "",
-      image: "",
-      nhaxuatban: "",
-      category: "",
-      hinhthuc: "",
-      price: 0,
-      quality: 0,
+      onSubmit,
+      name,
+      author,
+      image,
+      category,
+      nhaxuatban,
+      hinhthuc,
+      price,
+      quality,
     };
   },
-  methods: {},
 };
 </script>
 

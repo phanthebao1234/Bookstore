@@ -14,7 +14,19 @@ export default createStore({
       admin: false,
     };
   },
-  getters: {},
+  getters: {
+    filterCat: (state) => (category) => {
+      // for (let i = 0; i < state.products.length; i++) {
+      //   const index = state.products[i].includes(category);
+      //   return state.products[index];
+      // }
+      if (state.products) {
+        return state.products.filter((product) => {
+          return (product.category = category);
+        });
+      }
+    },
+  },
   mutations: {
     countTotal(state) {
       state.cartOfUser.reduce((total, current) => {

@@ -21,6 +21,11 @@ export default {
     FooterComponent,
     NavbarAdmin,
   },
+  // data() {
+  //   return {
+
+  //   };
+  // },
   created() {
     const store = useStore();
     {
@@ -41,10 +46,11 @@ export default {
     console.log("user id:", user.value);
 
     //Kiểm tra admin
-    const isAdmin = store.state.admin;
+    // const isAdmin = store.state.admin;
 
     return {
-      isAdmin,
+      // isAdmin,
+      isAdmin: computed(() => store.state.isAdmin),
       products: computed(() => store.state.products),
       carts: computed(() => store.state.cartOfUser),
     };

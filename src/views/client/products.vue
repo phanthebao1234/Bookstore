@@ -5,7 +5,12 @@
       <div class="col-lg-3">
         <div class="input-group mb-3">
           <span class="input-group-text">@</span>
-          <input type="text" class="form-control" placeholder="Tìm kiếm" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tìm kiếm"
+            v-model="searchString"
+          />
         </div>
         <h1>Nhóm sản phẩm</h1>
         <div class="list-group">
@@ -91,7 +96,7 @@ import { useStore } from "vuex";
 import { useUser } from "@/composables/useUser";
 import { useGetData } from "@/composables/useData";
 import { useAddToCart } from "@/composables/addToCart";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 export default {
   setup() {
     const store = useStore();
@@ -100,6 +105,18 @@ export default {
     const { getUser } = useUser();
     const { user } = getUser();
     console.log(user);
+    var searchString = ref("");
+    // const products = computed(()=> store.state.products)
+
+    //Phuong thuc search
+    // function filtersName() {
+    //   var listproducts = [];
+    //   var name = searchString.value;
+    //   if(!name || name ==="") {
+    //     return products;
+    //   }
+    // }
+
     store.dispatch("setProducts", { data: data });
 
     async function addCart(item) {
@@ -119,15 +136,43 @@ export default {
     // function addToCart(item) {
     //   store.dispatch("setCartArray", { data: item });
     // }
+    console.log(store.getters.filterCat("sachtamly"));
     function sachkynang() {
       store.dispatch("setSachkynang", { data: "sachkynang" });
     }
     return {
+      searchString,
       data,
       addCart,
       sachkynang,
       products: computed(() => store.state.products),
     };
+  },
+  data() {
+    return {
+      listdrink: [],
+      // searchString: "",
+    };
+  },
+  computed: {
+    fileterName() {
+      var listdrink = [];
+      // case 1: nếu người dùng ko gõ vào tìm kiếm thì trả về là drinks
+      var ten = this.searchString; //COFFEE
+      console.log(ten);
+      if (!ten || ten === "") {
+        return this.products;
+      }
+      // case 2: có tìm kiếm, thì phỉa đổi gái trị tìm kiếm về chữ hoa hoặc chữ thường
+      ten = ten.trim().toLowerCase(); //milk
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].name.includes(ten)) {
+          listdrink.push(this.products[i]);
+          // return this.products[i];
+        }
+      }
+      return listdrink;
+    },
   },
 };
 </script>
